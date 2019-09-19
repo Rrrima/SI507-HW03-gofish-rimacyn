@@ -121,6 +121,17 @@ class Deck(object):
 		else:
 			hand_list = []
 			for i in range(hn):
-				cur_hand = Hand(self.cards[cn*i:cn*i+cn])
+				cur_cards = []
+				for j in range(cn*i,cn*i+cn):
+					cur_cards.append(self.pop_card())
+				cur_hand = Hand(cur_cards)
 				hand_list.append(cur_hand)
 			return hand_list
+
+
+
+
+
+
+
+
