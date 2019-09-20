@@ -38,6 +38,17 @@ def show_game_status(deck,player_list,bookstatus):
 			.format(USER[i],bookstatus[i],len(player_list[i].cards)))
 	print("#cards in deck:{}".format(len(deck.cards)))
 
+def is_valid_que(queface,pcards):
+	if (queface in range(1,14)) and \
+		(queface in [each.rank_num for each in pcards]):
+			return True
+	else:
+		return False
+
+
+def get_next_player(pindex):
+	return (pindex+1)%USER_NUM
+
 # keep asking until get valid input
 def ask_input(pindex):
 	while(1):
