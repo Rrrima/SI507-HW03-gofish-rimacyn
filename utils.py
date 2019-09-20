@@ -14,7 +14,7 @@ class Card(object):
 		self.rank_num = rank # To handle winning comparison
 
 	def __str__(self):
-		return "{} of {}".format(self.rank,self.suit)
+		return "{} of {}".format(self.rank_num,self.suit)
 
 class Hand(object):
 	# create the Hand with an initial set of cards
@@ -50,20 +50,26 @@ class Hand(object):
 		dcard = deck.pop_card()
 		self.cards.append(dcard)
 
-	# looks for pairs of cards in a hand and removes them. 
-	# Note that if there are three of a kind, only two should be removed 
-	def remove_pairs(self):
-		remained_list = []
-		remained_str = []
+	# remove books
+	def remove_books(self,booksnum):
+		remained_cards = []
+		for eachcard in self.cards:
+			if eachcard.rank_num not in booksnum:
+				remained_cards.append(eachcard)
+		self.cards = remained_cards
+
+	def hand_over(self, num):
+		cards = []
+		rcards = []
 		for each in self.cards:
-			if str(each) in remained_str:
-				card_index = remained_str.index(str(each))
-				remained_str.remove(str(each))
-				del remained_list[card_index]
+			if each.rank_num == num:
+				cards.append(each)
 			else:
-				remained_list.append(each)
-				remained_str.append(str(each))
-		self.cards = remained_list
+				rcards.append(each)
+		self.cards = rcards
+		return cards
+
+
 
 class Deck(object):
 	def __init__(self): # Don't need any input to create a deck of cards
