@@ -40,7 +40,18 @@ def show_game_status(deck,player_list,bookstatus):
 
 # keep asking until get valid input
 def ask_input(pindex):
-	pass
+	while(1):
+		queface_str = input('\nHi,{}. Please choose a card rank you would like to ask the other player if they have (between 1-13):\n'.format(USER[pindex]))
+		if queface_str == 'exit':
+			exit()
+		try:
+			queface = int(queface_str)
+			if is_valid_que(queface,pcards):
+				return queface
+			else:
+				print('invalid input!')
+		except:
+			print('invalid input!')
 
 def deal_with_query(player, queface):
 	pass
