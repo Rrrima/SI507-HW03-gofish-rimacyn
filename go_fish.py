@@ -45,6 +45,7 @@ def is_valid_que(queface,pcards):
 	else:
 		return False
 
+
 def get_next_player(pindex):
 	return (pindex+1)%USER_NUM
 
@@ -134,7 +135,6 @@ def play_gofish():
 
 if __name__ == "__main__":
 	play_gofish()
-
 
 
 
