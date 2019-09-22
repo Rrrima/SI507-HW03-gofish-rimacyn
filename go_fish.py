@@ -1,7 +1,7 @@
 from utils import Card,Hand,Deck
-
-USER = {0:'Alice',1:'Bob'}
-USER_NUM = 2
+import random
+USER_NUM = random.choice([2,3,4])
+USER = {0:'Alice',1:'Bob',2:'Amy',3:'John'}
 # give cards to p1 and p2
 # paprameter: num of player,  default=2
 # return: two hand objects for p1 and p2
@@ -52,18 +52,8 @@ def get_next_player(pindex):
 # keep asking until get valid input
 # parameter: pcard: the in hand cards for current player
 def ask_input(pindex,pcards):
-	while(1):
-		queface_str = input('\nHi,{}. Please choose a card rank you would like to ask the other player if they have (between 1-13):\n'.format(USER[pindex]))
-		if queface_str == 'exit':
-			exit()
-		try:
-			queface = int(queface_str)
-			if is_valid_que(queface,pcards):
-				return queface
-			else:
-				print('invalid input!')
-		except:
-			print('invalid input!')
+	choices = [card.rank_num for card in pcards]
+	return random.choice(choices)
 
 def deal_with_query(pindex, hand_que, hand_ans, queface, deck):
 	if queface in [each.rank_num for each in hand_ans.cards]:
@@ -74,7 +64,6 @@ def deal_with_query(pindex, hand_que, hand_ans, queface, deck):
 	else:
 		print("go fish!")
 		drew_card = deck.pop_card()
-		print("you drew card: {}".format(str(drew_card)))
 		hand_que.add_card(drew_card)
 		if drew_card.rank_num == queface:
 			next_turn = pindex
@@ -98,17 +87,16 @@ def update_status(bookstatus, hand_index, hand):
 		hand.remove_books(the_books)
 
 def is_win(hand_list,bookstatus,deck):
-	flag = 0
 	# print(len(hand_list[0].cards),'  ',len(hand_list[1].cards))
 	for each in hand_list:
+		#print(len(each.cards))
 		if len(each.cards)==0:
-			flag = 1
+			show_game_status(deck,hand_list,bookstatus)
+			return (bookstatus.index(max(bookstatus))+1)
 	if len(deck.cards) == 0:
-		flag = 1
-	if flag==1:
+		show_game_status(deck,hand_list,bookstatus)
 		return (bookstatus.index(max(bookstatus))+1)
-	else:
-		return 0
+	return 0
 
 def start_turn(pindex,my_deck,player_list,bookstatus):
 	show_game_status(my_deck,player_list,bookstatus)
@@ -131,7 +119,7 @@ def play_gofish():
 		pindex = next_turn
 
 	print("+++++++++++++++ GAME OVER +++++++++++++++")
-	print("{} wins the game with {} books".format(USER[is_win(player_list,bookstatus,my_deck)],max(bookstatus)))
+	print("{} wins the game with {} books".format(USER[is_win(player_list,bookstatus,my_deck)-1],max(bookstatus)))
 
 if __name__ == "__main__":
 	play_gofish()
