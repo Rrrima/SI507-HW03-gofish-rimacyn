@@ -80,11 +80,6 @@ def has_books(hand):
 			books.append(i)
 	return books
 
-def update_status(bookstatus, hand_index, hand):
-	the_books = has_books(hand)
-	if len(the_books)>0:
-		bookstatus[hand_index].extend(the_books)
-		hand.remove_books(the_books)
 
 def is_win(hand_list,bookstatus,deck):
 	# print(len(hand_list[0].cards),'  ',len(hand_list[1].cards))
@@ -97,6 +92,12 @@ def is_win(hand_list,bookstatus,deck):
 		show_game_status(deck,hand_list,bookstatus)
 		return (bookstatus.index(max(bookstatus))+1)
 	return 0
+
+def update_status(bookstatus, hand_index, hand):
+        the_books = has_books(hand)
+        if len(the_books)>0:
+                bookstatus[hand_index].extend(the_books)
+                hand.remove_books(the_books)
 
 def start_turn(pindex,my_deck,player_list,bookstatus):
 	show_game_status(my_deck,player_list,bookstatus)
